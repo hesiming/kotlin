@@ -383,6 +383,12 @@ internal class DescriptorRendererImpl(
             append(" ").append(renderMessage("defined in")).append(" ")
             val fqName = DescriptorUtils.getFqName(containingDeclaration)
             append(if (fqName.isRoot) "root package" else renderFqName(fqName))
+
+            if (containingDeclaration is PackageFragmentDescriptor && descriptor is DeclarationDescriptorWithSource) {
+                descriptor.source.containingFile.name?.let { sourceFileName ->
+                    append(" in file $sourceFileName")
+                }
+            }
         }
     }
 
